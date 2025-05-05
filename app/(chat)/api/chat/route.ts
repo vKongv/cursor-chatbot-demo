@@ -2,6 +2,7 @@ import {
   appendClientMessage,
   appendResponseMessages,
   createDataStream,
+  LanguageModel,
   smoothStream,
   streamText,
 } from 'ai';
@@ -70,8 +71,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, selectedChatModel, selectedVisibilityType } =
-      requestBody;
+    const {
+      id,
+      message,
+      selectedProviderId,
+      selectedModelId,
+      selectedVisibilityType,
+    } = requestBody;
 
     const session = await auth();
 
@@ -147,22 +153,64 @@ export async function POST(request: Request) {
     const streamId = generateUUID();
     await createStreamId({ streamId, chatId: id });
 
+    // Create the full model ID for the provider
+    const fullModelId = `${selectedProviderId}:${selectedModelId}`;
+
+    // Determine if reasoning is needed
+    const isReasoningModel = selectedModelId.includes('reasoning');
+
     const stream = createDataStream({
       execute: (dataStream) => {
+        // Select the appropriate model based on provider and model ID
+        let modelInstance: LanguageModel;
+        try {
+          // Check if the provider is available in myProvider directly
+          // First try with the prefixed model ID
+          try {
+            // Use the prefixed model ID if available in myProvider
+            modelInstance = myProvider.languageModel(fullModelId as string);
+          } catch {
+            // If not found, import the dynamic model creation functions
+            const {
+              createModelInstance,
+              createReasoningModelInstance,
+            } = require('@/lib/ai/providers');
+
+            if (isReasoningModel) {
+              modelInstance = createReasoningModelInstance(
+                selectedProviderId,
+                selectedModelId,
+              );
+            } else {
+              modelInstance = createModelInstance(
+                selectedProviderId,
+                selectedModelId,
+              );
+            }
+          }
+        } catch (err) {
+          const error = err as Error;
+          console.error('Error creating model instance:', error);
+          throw new Error(`Failed to initialize AI model: ${error.message}`);
+        }
+
         const result = streamText({
-          model: myProvider.languageModel(selectedChatModel),
-          system: systemPrompt({ selectedChatModel, requestHints }),
+          model: modelInstance,
+          system: systemPrompt({
+            selectedProviderId,
+            selectedModelId,
+            requestHints,
+          }),
           messages,
           maxSteps: 5,
-          experimental_activeTools:
-            selectedChatModel === 'chat-model-reasoning'
-              ? []
-              : [
-                  'getWeather',
-                  'createDocument',
-                  'updateDocument',
-                  'requestSuggestions',
-                ],
+          experimental_activeTools: isReasoningModel
+            ? []
+            : [
+                'getWeather',
+                'createDocument',
+                'updateDocument',
+                'requestSuggestions',
+              ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
           tools: {
@@ -236,7 +284,9 @@ export async function POST(request: Request) {
     } else {
       return new Response(stream);
     }
-  } catch (_) {
+  } catch (err) {
+    const error = err as Error;
+    console.error('Error processing request:', error);
     return new Response('An error occurred while processing your request!', {
       status: 500,
     });

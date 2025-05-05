@@ -18,6 +18,8 @@ import { toast } from './toast';
 import type { Session } from 'next-auth';
 import { useSearchParams } from 'next/navigation';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
+import { defaultProviderId } from '@/lib/ai/config';
+import { getFullModelId } from '@/lib/ai/config';
 
 export function Chat({
   id,
@@ -37,6 +39,15 @@ export function Chat({
   autoResume: boolean;
 }) {
   const { mutate } = useSWRConfig();
+
+  // Parse initialChatModel to get provider and model IDs
+  const [initialProviderId, initialModelId] = initialChatModel.includes(':') 
+    ? initialChatModel.split(':') 
+    : [defaultProviderId, initialChatModel]; // Default to xAI if no provider specified
+
+  // State for provider and model selection
+  const [selectedProviderId, setSelectedProviderId] = useState<string>(initialProviderId);
+  const [selectedModelId, setSelectedModelId] = useState<string>(initialModelId);
 
   const { visibilityType } = useChatVisibility({
     chatId: id,
@@ -63,7 +74,8 @@ export function Chat({
     experimental_prepareRequestBody: (body) => ({
       id,
       message: body.messages.at(-1),
-      selectedChatModel: initialChatModel,
+      selectedProviderId: selectedProviderId,
+      selectedModelId: selectedModelId,
       selectedVisibilityType: visibilityType,
     }),
     onFinish: () => {
@@ -116,7 +128,10 @@ export function Chat({
       <div className="flex flex-col min-w-0 h-dvh bg-background">
         <ChatHeader
           chatId={id}
-          selectedModelId={initialChatModel}
+          selectedProviderId={selectedProviderId}
+          setSelectedProviderId={setSelectedProviderId}
+          selectedModelId={selectedModelId}
+          setSelectedModelId={setSelectedModelId}
           selectedVisibilityType={initialVisibilityType}
           isReadonly={isReadonly}
           session={session}
