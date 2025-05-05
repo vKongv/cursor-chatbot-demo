@@ -1,0 +1,12 @@
+---
+description: 
+globs: **/*.tsx,**/*.css,tailwind.config.ts
+alwaysApply: false
+---
+## Styling with Tailwind CSS
+
+- Approach: Use Tailwind's utility classes directly in components for styling.
+- Configuration: Theme customizations (colors, spacing, etc.) are defined in `tailwind.config.ts`.
+- Base Styles: Global styles and base resets are in `app/globals.css`.
+- Class Management: Use `clsx` for conditional class logic and ensure `tailwind-merge` (via `cn` utility in `lib/utils.ts`) is used to resolve conflicts.
+- Linting/Sorting: Code style tools (Biome/ESLint) are configured to sort Tailwind classes automatically.

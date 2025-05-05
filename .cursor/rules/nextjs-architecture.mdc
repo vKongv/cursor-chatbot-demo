@@ -1,0 +1,13 @@
+---
+description: 
+globs: app/**
+alwaysApply: false
+---
+## Next.js 15 App Router Conventions
+
+- App Directory: Core structure using file-based routing.
+- Components: Default to React Server Components (RSC). Use `'use client'` directive for Client Components only when necessary (hooks, event handlers).
+- Data Fetching: Use `async` Server Components for server-side data fetching.
+- Mutations/RPC: Prefer Server Actions (`actions.ts`) co-located with features over traditional API Routes for form submissions and direct client-to-server calls.
+- Routing: Leverage Route Groups `(group_name)` for organization (e.g., `(auth)`, `(chat)`).
+- Layouts: Use `layout.tsx` for shared UI structures.

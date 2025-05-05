@@ -1,0 +1,15 @@
+---
+description: 
+globs: lib/db/**/*.ts,drizzle.config.ts
+alwaysApply: false
+---
+## Database Interactions with Drizzle ORM
+
+- ORM: Drizzle ORM
+- Database: Neon Serverless Postgres
+- Schema: Defined in `lib/db/schema.ts`. Use Drizzle syntax for tables, columns, relations.
+- Queries: Implement database operations (CRUD) in `lib/db/queries.ts` or similar files. Use Drizzle's query builder.
+- Migrations: Managed using `drizzle-kit`.
+  - Generate migrations: `pnpm run db:generate`
+  - Apply migrations: `pnpm run db:migrate`
+- Configuration: `drizzle.config.ts` specifies DB connection details (usually from env vars) and schema location.

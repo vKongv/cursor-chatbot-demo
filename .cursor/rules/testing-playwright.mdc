@@ -1,0 +1,13 @@
+---
+description: 
+globs: tests/**/*.ts,playwright.config.ts
+alwaysApply: false
+---
+## E2E Testing with Playwright
+
+- Framework: Playwright (`@playwright/test`)
+- Location: Tests are in `tests/e2e/`.
+- Page Objects: Use Page Object Model (POM) pattern. Define page objects in `tests/pages/`.
+- Configuration: `playwright.config.ts` defines browsers, base URL, etc.
+- Execution: Run tests via `pnpm test`. Requires `PLAYWRIGHT=True` environment variable to be set.
+- Selectors: Prefer user-visible locators (role, text, placeholder) over CSS/XPath where possible.

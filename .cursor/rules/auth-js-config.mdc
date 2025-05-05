@@ -1,0 +1,13 @@
+---
+description: 
+globs: app/(auth)/**/*.ts,middleware.ts
+alwaysApply: false
+---
+## Auth.js v5 Configuration
+
+- Version: Auth.js v5 (formerly NextAuth.js)
+- Core Config: Located in `app/(auth)/auth.ts` (or similar central auth file). Defines providers (e.g., Credentials), callbacks, session strategy, etc.
+- API Routes: Auth.js handles routes under `/api/auth/*` automatically.
+- Middleware: `middleware.ts` likely uses Auth.js helpers (`auth`) to protect routes and manage sessions.
+- Session Access: Access session data on the server using the `auth()` helper and on the client using `useSession` hook or similar patterns with SessionProvider.
+- Providers: Currently uses Credentials provider. Check config for others.

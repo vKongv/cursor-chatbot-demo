@@ -1,0 +1,15 @@
+---
+description: 
+globs: app/**/api/**/*.ts,app/**/actions.ts
+alwaysApply: false
+---
+## API & Server Action Guidelines
+
+- API Routes (`app/**/api/`):
+  - Use for traditional RESTful endpoints, especially streaming responses (e.g., `/api/chat`).
+  - Suitable for webhooks or external integrations.
+- Server Actions (`actions.ts`):
+  - Preferred for RPC-style calls directly from RSCs/Client Components (forms, button clicks).
+  - Co-locate actions with the features they serve.
+- Validation: Use `zod` for validating request inputs and defining response shapes in both API Routes and Server Actions.
+- Key Endpoints: Remember `/api/chat`, `/api/files/upload`, `/api/history`, etc. (see `project-details.md`).

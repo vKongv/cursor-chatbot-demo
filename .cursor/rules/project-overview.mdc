@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Project Overview
+
+- Description: Next.js/Vercel AI SDK chatbot template.
+- Core Tech:
+  - Next.js 15 (App Router, RSC, Server Actions)
+  - Vercel AI SDK (Text, Objects, Tools)
+  - shadcn/ui + Tailwind CSS
+  - Drizzle ORM + Neon Postgres
+  - Auth.js v5
+  - Vercel Blob (Files)
+- Architecture: Full-stack Next.js. Frontend (RSC/Client), Backend (API Routes/Server Actions), AI SDK integration, Postgres DB via Drizzle, Auth.js for auth, Vercel Blob for files.
+- Reference: See `[project-details.md](mdc:project-details.md)` for exhaustive details if needed.

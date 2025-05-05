@@ -1,0 +1,14 @@
+---
+description: 
+globs: lib/ai/**/*.ts,app/(chat)/api/chat/route.ts
+alwaysApply: false
+---
+## Vercel AI SDK Usage
+
+- Core Packages: `ai` and `@ai-sdk/react`.
+- Client Hooks: Use `@ai-sdk/react` hooks like `useChat` and `useCompletion` for managing client-side state and streaming responses.
+- Backend: Implement API routes (e.g., `app/(chat)/api/chat/route.ts`) or Server Actions to interact with the AI SDK core (`ai` package).
+- Models: Configure AI models (OpenAI, Anthropic, etc.) in `lib/ai/models.ts`.
+- Tools: Define custom AI tools (functions the AI can call) in `lib/ai/tools/`. Ensure tools have clear descriptions and use Zod schemas for parameters.
+- Streaming: Leverage built-in streaming capabilities for text and UI generation.
+- Structured Output: Use the SDK features for generating structured objects (e.g., with Zod schemas).
