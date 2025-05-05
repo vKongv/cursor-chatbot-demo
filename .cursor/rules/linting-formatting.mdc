@@ -5,7 +5,7 @@ alwaysApply: true
 ---
 ## Code Style & Formatting
 
-- Tools: BiomeJS (`biome.jsonc`) and ESLint (`.eslintrc.json`) are used for linting and formatting.
+- Tools: BiomeJS (`biome.jsonc`) is used for linting and formatting.
 - Compliance: Ensure code adheres to the configured rules.
 - Automation: Formatting (including Tailwind class sorting) should be applied automatically (e.g., on save via editor integration or via `pnpm format` script).
 - Scripts: Use `pnpm lint` and `pnpm format` for checks and fixes.
