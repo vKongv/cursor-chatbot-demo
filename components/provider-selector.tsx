@@ -1,8 +1,6 @@
 'use client';
 
-import { startTransition, useMemo, useOptimistic, useState } from 'react';
-
-import { saveChatModelAsCookie } from '@/app/(chat)/actions';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,43 +9,25 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-
 import { CheckCircleFillIcon, ChevronDownIcon } from './icons';
-import { entitlementsByUserType } from '@/lib/ai/entitlements';
-import type { Session } from 'next-auth';
 import type { ProviderConfig } from '@/lib/ai/config';
-import { getFullModelId } from '@/lib/ai/config';
 
-export function ModelSelector({
-  session,
+export function ProviderSelector({
   selectedProviderId,
-  selectedModelId,
+  setSelectedProviderId,
   setSelectedModelId,
-  providersConfig,
+  providers,
   className,
 }: {
-  session: Session;
   selectedProviderId: string;
-  selectedModelId: string;
+  setSelectedProviderId: (id: string) => void;
   setSelectedModelId: (id: string) => void;
-  providersConfig: ProviderConfig[];
+  providers: ProviderConfig[];
 } & React.ComponentProps<typeof Button>) {
   const [open, setOpen] = useState(false);
-  const [optimisticModelId, setOptimisticModelId] =
-    useOptimistic(selectedModelId);
 
-  const userType = session.user.type;
-  const { availableChatModelIds } = entitlementsByUserType[userType];
-
-  // Find the current provider
-  const currentProvider = providersConfig.find(p => p.id === selectedProviderId);
-  
-  // Filter models for the current provider
-  const availableModels = currentProvider?.models || [];
-
-  const selectedModel = useMemo(
-    () => availableModels.find(model => model.id === optimisticModelId),
-    [optimisticModelId, availableModels]
+  const selectedProvider = providers.find(
+    (provider) => provider.id === selectedProviderId,
   );
 
   return (
@@ -60,33 +40,31 @@ export function ModelSelector({
         )}
       >
         <Button
-          data-testid="model-selector"
+          data-testid="provider-selector"
           variant="outline"
           className="md:px-2 md:h-[34px]"
         >
-          {selectedModel?.name || 'Select Model'}
+          {selectedProvider?.name || 'Select Provider'}
           <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-[300px]">
-        {availableModels.map((model) => {
-          const { id, name, description } = model;
-          const fullModelId = getFullModelId(selectedProviderId, id);
+        {providers.map((provider) => {
+          const { id, name } = provider;
 
           return (
             <DropdownMenuItem
-              data-testid={`model-selector-item-${id}`}
+              data-testid={`provider-selector-item-${id}`}
               key={id}
               onSelect={() => {
                 setOpen(false);
-
-                startTransition(() => {
-                  setOptimisticModelId(id);
-                  setSelectedModelId(id);
-                  saveChatModelAsCookie(fullModelId);
-                });
+                setSelectedProviderId(id);
+                
+                // When provider changes, set model to the default for that provider
+                const defaultModelId = provider.defaultModelId;
+                setSelectedModelId(defaultModelId);
               }}
-              data-active={id === optimisticModelId}
+              data-active={id === selectedProviderId}
               asChild
             >
               <button
@@ -96,7 +74,7 @@ export function ModelSelector({
                 <div className="flex flex-col gap-1 items-start">
                   <div>{name}</div>
                   <div className="text-xs text-muted-foreground">
-                    {description}
+                    {`${provider.models.length} models available`}
                   </div>
                 </div>
 
@@ -110,4 +88,4 @@ export function ModelSelector({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+} 

@@ -10,9 +10,9 @@ import {
 import type { VisibilityType } from '@/components/visibility-selector';
 import { myProvider } from '@/lib/ai/providers';
 
-export async function saveChatModelAsCookie(model: string) {
+export async function saveChatModelAsCookie(fullModelId: string) {
   const cookieStore = await cookies();
-  cookieStore.set('chat-model', model);
+  cookieStore.set('chat-model', fullModelId);
 }
 
 export async function generateTitleFromUserMessage({
