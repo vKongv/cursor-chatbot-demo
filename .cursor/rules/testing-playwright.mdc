@@ -11,3 +11,4 @@ alwaysApply: false
 - Configuration: `playwright.config.ts` defines browsers, base URL, etc.
 - Execution: Run tests via `pnpm test`. Requires `PLAYWRIGHT=True` environment variable to be set.
 - Selectors: Prefer user-visible locators (role, text, placeholder) over CSS/XPath where possible.
+- DO NOT create or update test
