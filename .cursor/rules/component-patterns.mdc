@@ -8,7 +8,7 @@ alwaysApply: false
 - Types: Prefer React Server Components (RSC) unless client-side interactivity (`useState`, `useEffect`, event handlers) is required, then use `'use client'`.
 - Location:
   - `components/`: General reusable components.
-  - `components/ui/`: Base primitives from shadcn/ui (usually don't modify directly).
+  - `components/ui/`: Base primitives from shadcn/ui (usually don't modify directly). Add new component using shadcn cli `pnpm dlx shadcn@latest ...`
   - `artifacts/`: Components for rendering specific AI tool outputs (code, images, text, sheets).
   - Feature-specific components can be co-located within `app/` subdirectories.
 - Styling: Use Tailwind CSS utility classes. Apply conditional classes using `clsx` and `tailwind-merge` utilities (imported from `lib/utils`).

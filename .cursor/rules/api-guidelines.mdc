@@ -12,4 +12,5 @@ alwaysApply: false
   - Preferred for RPC-style calls directly from RSCs/Client Components (forms, button clicks).
   - Co-locate actions with the features they serve.
 - Validation: Use `zod` for validating request inputs and defining response shapes in both API Routes and Server Actions.
-- Key Endpoints: Remember `/api/chat`, `/api/files/upload`, `/api/history`, etc. (see `project-details.md`).
+- Database Operations: All queries and updates operations should be written in `lib/db/queries.ts` and later import by api endpoint to consume
+- Key Endpoints: Remember `/api/chat`, `/api/files/upload`, `/api/history`, etc. refer relevant `app/(chat)/api/route.ts for existing parttern
