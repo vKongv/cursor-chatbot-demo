@@ -509,3 +509,22 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
     throw error;
   }
 }
+
+export async function updateChatTagsById({
+  chatId,
+  tags,
+}: {
+  chatId: string;
+  tags: string[];
+}) {
+  try {
+    return await db
+      .update(chat)
+      .set({ tags })
+      .where(eq(chat.id, chatId))
+      .returning();
+  } catch (error) {
+    console.error('Failed to update chat tags in database');
+    throw error;
+  }
+}
