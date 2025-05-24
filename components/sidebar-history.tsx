@@ -231,6 +231,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                               setShowDeleteDialog(true);
                             }}
                             setOpenMobile={setOpenMobile}
+                            onUpdate={mutate}
                           />
                         ))}
                       </div>
@@ -251,6 +252,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                               setShowDeleteDialog(true);
                             }}
                             setOpenMobile={setOpenMobile}
+                            onUpdate={mutate}
                           />
                         ))}
                       </div>
@@ -271,6 +273,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                               setShowDeleteDialog(true);
                             }}
                             setOpenMobile={setOpenMobile}
+                            onUpdate={mutate}
                           />
                         ))}
                       </div>
@@ -291,6 +294,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                               setShowDeleteDialog(true);
                             }}
                             setOpenMobile={setOpenMobile}
+                            onUpdate={mutate}
                           />
                         ))}
                       </div>
@@ -311,6 +315,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                               setShowDeleteDialog(true);
                             }}
                             setOpenMobile={setOpenMobile}
+                            onUpdate={mutate}
                           />
                         ))}
                       </div>
