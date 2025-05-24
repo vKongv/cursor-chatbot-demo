@@ -68,7 +68,11 @@ const PureChatItem = ({
             <div className="flex flex-col items-start w-full gap-1">
               <span>{chat.title}</span>
               {(chat.tags?.length || 0) > 0 && (
-                <div className="flex flex-wrap gap-1" onClick={handleTagsClick}>
+                <button
+                  type="button"
+                  className="flex flex-wrap gap-1"
+                  onClick={handleTagsClick}
+                >
                   {displayedTags.map((tag) => (
                     <Badge
                       key={tag}
@@ -86,7 +90,7 @@ const PureChatItem = ({
                       +{remainingTagsCount} more
                     </Badge>
                   )}
-                </div>
+                </button>
               )}
             </div>
           </Link>
